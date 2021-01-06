@@ -1,0 +1,4 @@
+include ':app'
+include ':boxing_lib:boxing'
+include ':boxing_lib:boxing-impl'
+rootProject.name = "Qxing"
