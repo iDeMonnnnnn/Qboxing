@@ -52,35 +52,34 @@ object CompressTask {
         if (imageCompressor == null || image == null || maxSize <= 0) {
             return false
         }
-        val task =
-            BoxingExecutor.getInstance().runWorker(Callable {
-                val path = image.path
-                val compressSaveFile = imageCompressor.getCompressOutFile(path)
-                val needCompressFile = File(path)
-                if (isFileValid(compressSaveFile)) {
-                    image.compressPath = compressSaveFile?.absolutePath ?: ""
-                    return@Callable true
+        val task = BoxingExecutor.getInstance().runWorker(Callable {
+            val path = image.sandboxPath ?: ""
+            val compressSaveFile = imageCompressor.getCompressOutFile(path)
+            val needCompressFile = File(path)
+            if (isFileValid(compressSaveFile)) {
+                image.compressPath = compressSaveFile?.absolutePath ?: ""
+                return@Callable true
+            }
+            if (!isFileValid(needCompressFile)) {
+                return@Callable false
+            } else if (image.size < maxSize) {
+                image.compressPath = path
+                return@Callable true
+            } else {
+                try {
+                    val result =
+                        imageCompressor.compress(needCompressFile, maxSize)
+                    val suc =
+                        isFileValid(result)
+                    image.compressPath = if (suc) result.absolutePath else ""
+                    return@Callable suc
+                } catch (_: Exception) {
+                    image.compressPath = ""
+                    d("image compress fail!")
                 }
-                if (!isFileValid(needCompressFile)) {
-                    return@Callable false
-                } else if (image.size < maxSize) {
-                    image.compressPath = path
-                    return@Callable true
-                } else {
-                    try {
-                        val result =
-                            imageCompressor.compress(needCompressFile, maxSize)
-                        val suc =
-                            isFileValid(result)
-                        image.compressPath = if (suc) result.absolutePath else ""
-                        return@Callable suc
-                    } catch (_: Exception) {
-                        image.compressPath = ""
-                        d("image compress fail!")
-                    }
-                }
-                false
-            }) ?: return false
+            }
+            false
+        }) ?: return false
         return try {
             task.get()
         } catch (_: Exception) {

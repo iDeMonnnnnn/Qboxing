@@ -40,13 +40,13 @@ class ImageCompressor {
     private var mOutFileFile: File? = null
 
     constructor(cachedRootDir: File) {
-        mOutFileFile = File("${cachedRootDir.absolutePath}${File.separator}.compress${File.separator}")
+        mOutFileFile = File("${cachedRootDir.absolutePath}${File.separator}")
     }
 
     constructor(context: Context) {
         val rootDir = BoxingFileHelper.getCacheDir(context)
         check(!TextUtils.isEmpty(rootDir)) { "the cache dir is null" }
-        mOutFileFile = File("$rootDir${File.separator}.compress${File.separator}")
+        mOutFileFile = File("$rootDir${File.separator}")
     }
 
     /**

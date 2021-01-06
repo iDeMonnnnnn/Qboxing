@@ -41,7 +41,7 @@ object BoxingFileHelper {
     @JvmStatic
     fun getCacheDir(_context: Context?): String? {
         val context = _context ?: return null
-        val cacheDir = context.applicationContext.cacheDir
+        val cacheDir = context.applicationContext.externalCacheDir
         if (cacheDir == null) {
             BoxingLog.d("cache dir do not exist.")
             return null

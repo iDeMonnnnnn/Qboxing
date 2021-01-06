@@ -46,6 +46,7 @@ class Boxing private constructor(config: BoxingConfig) {
     init {
         BoxingManager.getInstance().boxingConfig = config
     }
+
     /**
      * same as [Intent.setClass]
      */
@@ -72,7 +73,7 @@ class Boxing private constructor(config: BoxingConfig) {
         }
     }
 
-    inline fun <reified T: Activity> withIntent(
+    inline fun <reified T : Activity> withIntent(
         context: Context?,
         selectedMedias: ArrayList<out BaseMedia>? = null
     ) = apply {
@@ -207,6 +208,13 @@ class Boxing private constructor(config: BoxingConfig) {
         const val EXTRA_CONFIG = "com.bilibili.boxing.Boxing.config"
         const val EXTRA_RESULT = "com.bilibili.boxing.Boxing.result"
         const val EXTRA_START_POS = "com.bilibili.boxing.Boxing.start_pos"
+        lateinit var mContext: Context
+
+        @JvmStatic
+        fun init(context: Context) {
+            mContext = context;
+        }
+
         /**
          * get the media result.
          */

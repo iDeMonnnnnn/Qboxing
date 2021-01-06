@@ -135,8 +135,7 @@ class ImageTask :
                         width = cursor.getInt(cursor.getColumnIndex(Images.Media.WIDTH))
                         height = cursor.getInt(cursor.getColumnIndex(Images.Media.HEIGHT))
                     }
-                    val imageItem =
-                        ImageMedia.Builder(id, picPath)
+                    val imageItem = ImageMedia.Builder(id, picPath)
                             .setThumbnailPath(mThumbnailMap[id] ?: "")
                             .setSize(size).setMimeType(mimeType).setHeight(height).setWidth(width)
                             .build()

@@ -18,9 +18,14 @@ package com.bilibili.boxing.model.entity
 
 import android.content.ContentUris
 import android.net.Uri
+import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
 import android.provider.MediaStore
+import com.bilibili.boxing.Boxing
+import com.bilibili.boxing.getFileFromUriN
+import com.bilibili.boxing.getFileFromUriQ
+import com.bilibili.boxing.uriToFile
 
 /**
  * The base entity for media.
@@ -35,6 +40,15 @@ abstract class BaseMedia : Parcelable {
     var id: String = ""
     var path: String = ""
     var mSize: String = ""
+    var sandboxPath: String? = null
+        get() {
+            if (field != null) return field
+            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                uri.uriToFile(Boxing.mContext)?.absolutePath
+            } else {
+                path
+            }
+        }
     var uri: Uri? = null
         get() {
             if (field != null) return field
