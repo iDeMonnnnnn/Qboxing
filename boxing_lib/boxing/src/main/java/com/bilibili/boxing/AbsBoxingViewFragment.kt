@@ -291,7 +291,7 @@ abstract class AbsBoxingViewFragment : Fragment(),
         val cropConfig =
             BoxingManager.getInstance().boxingConfig.cropOption ?: return
         BoxingCrop.getInstance()
-            .onStartCrop(requireActivity(), this, cropConfig, media.path, requestCode)
+            .onStartCrop(requireActivity(), this, cropConfig, media, requestCode)
     }
 
     /**
@@ -425,7 +425,7 @@ abstract class AbsBoxingViewFragment : Fragment(),
             BoxingCrop.getInstance().onCropFinish(resultCode, data) ?: return
         val medias: MutableList<BaseMedia> =
             ArrayList(1)
-        val media = ImageMedia(System.currentTimeMillis().toString(), output.path)
+        val media = ImageMedia("", output.path)
         medias.add(media)
         onFinish(medias)
     }

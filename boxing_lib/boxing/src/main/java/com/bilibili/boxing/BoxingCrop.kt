@@ -22,6 +22,7 @@ import android.net.Uri
 import androidx.fragment.app.Fragment
 import com.bilibili.boxing.loader.IBoxingCrop
 import com.bilibili.boxing.model.config.BoxingCropOption
+import com.bilibili.boxing.model.entity.BaseMedia
 
 /**
  * A loader holding [IBoxingCrop] to crop images.
@@ -40,10 +41,10 @@ class BoxingCrop private constructor() {
         activity: Activity,
         fragment: Fragment,
         cropConfig: BoxingCropOption,
-        path: String,
+        media: BaseMedia,
         requestCode: Int
     ) {
-        crop.onStartCrop(activity, fragment, cropConfig, path, requestCode)
+        crop.onStartCrop(activity, fragment, cropConfig, media, requestCode)
     }
 
     fun onCropFinish(resultCode: Int, data: Intent?): Uri? {

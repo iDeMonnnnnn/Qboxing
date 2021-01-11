@@ -22,10 +22,10 @@ import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
 import android.provider.MediaStore
-import com.bilibili.boxing.Boxing
-import com.bilibili.boxing.getFileFromUriN
-import com.bilibili.boxing.getFileFromUriQ
-import com.bilibili.boxing.uriToFile
+import com.bilibili.boxing.*
+import com.bilibili.boxing.utils.getFileUri
+import com.bilibili.boxing.utils.uriToFile
+import java.io.File
 
 /**
  * The base entity for media.
@@ -43,17 +43,17 @@ abstract class BaseMedia : Parcelable {
     var sandboxPath: String? = null
         get() {
             if (field != null) return field
-            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                uri.uriToFile(Boxing.mContext)?.absolutePath
-            } else {
+            return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || File(path).exists()) {
                 path
+            } else {
+                uri.uriToFile(Boxing.mContext)?.absolutePath
             }
         }
     var uri: Uri? = null
         get() {
             if (field != null) return field
             return if (id.isEmpty()) {
-                null
+                File(path).getFileUri(Boxing.mContext)
             } else {
                 if (type == TYPE.IMAGE) {
                     ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id.toLong())

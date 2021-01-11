@@ -21,6 +21,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.fragment.app.Fragment
 import com.bilibili.boxing.model.config.BoxingCropOption
+import com.bilibili.boxing.model.entity.BaseMedia
 
 /**
  * Cropping interface.
@@ -39,7 +40,7 @@ interface IBoxingCrop {
         context: Context,
         fragment: Fragment,
         cropConfig: BoxingCropOption,
-        path: String,
+        media: BaseMedia,
         requestCode: Int
     )
 

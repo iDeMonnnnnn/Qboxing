@@ -18,7 +18,6 @@ package com.bilibili.boxing.model.entity.impl
 
 import android.content.ContentResolver
 import android.content.ContentValues
-import android.net.Uri
 import android.os.*
 import android.provider.MediaStore
 import android.text.TextUtils
@@ -48,9 +47,10 @@ class ImageMedia : BaseMedia, Parcelable {
 
     constructor(id: String?, imagePath: String?) : super(id, imagePath)
 
-    constructor(file: File) : super(System.currentTimeMillis().toString(), file.absolutePath) {
+    constructor(file: File) : super("", file.absolutePath) {
         mSize = file.length().toString()
-        uri = Uri.fromFile(file)
+        mMimeType = file.name.getMimeTypeByFileName()
+        imageType = getImageTypeByMime(mMimeType)
         isSelected = true
     }
 
@@ -109,7 +109,7 @@ class ImageMedia : BaseMedia, Parcelable {
                 IMAGE_TYPE.JPG -> {
                     "image/jpeg"
                 }
-                else -> "image/jpeg"
+                else -> "image/png"
             }
         }
 

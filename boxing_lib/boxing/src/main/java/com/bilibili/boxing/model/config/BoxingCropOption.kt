@@ -38,9 +38,15 @@ class BoxingCropOption : Parcelable {
         private set
     var maxHeight = 0
         private set
+    var isFreeStyle = false
+        private set
 
     constructor(destination: Uri) {
         this.destination = destination
+    }
+
+    fun setFreeStyle(freeStyle: Boolean) = apply {
+        isFreeStyle = freeStyle
     }
 
     fun aspectRatio(
@@ -85,6 +91,7 @@ class BoxingCropOption : Parcelable {
     }
 
     companion object {
+        const val CROP_IMAGE_ACTIVITY_REQUEST_CODE = 2333
         @JvmStatic
         fun with(destination: Uri): BoxingCropOption {
             return BoxingCropOption(destination)
