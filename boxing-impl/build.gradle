@@ -52,5 +52,5 @@ dependencies {
     implementation('com.chensl.rotatephotoview:rotatephotoview:1.0.5') {
         exclude group: 'com.android.support'
     }
-    api project(":boxing_lib:boxing")
+    api project(":boxing")
 }

@@ -12,9 +12,8 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/boxing_lib" />
-            <option value="$PROJECT_DIR$/boxing_lib/boxing" />
-            <option value="$PROJECT_DIR$/boxing_lib/boxing-impl" />
+            <option value="$PROJECT_DIR$/boxing" />
+            <option value="$PROJECT_DIR$/boxing-impl" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

@@ -1,4 +1,4 @@
 include ':app'
-include ':boxing_lib:boxing'
-include ':boxing_lib:boxing-impl'
+include ':boxing'
+include ':boxing-impl'
 rootProject.name = "Qboxing"
