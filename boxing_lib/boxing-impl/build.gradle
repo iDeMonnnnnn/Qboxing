@@ -45,8 +45,8 @@ android {
 }
 
 dependencies {
-    implementation "androidx.core:core-ktx:1.3.2"
-    implementation "com.google.android.material:material:1.2.1"
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'com.google.android.material:material:1.2.1'
     implementation('com.chensl.rotatephotoview:rotatephotoview:1.0.5') {
         exclude group: 'com.android.support'
     }
