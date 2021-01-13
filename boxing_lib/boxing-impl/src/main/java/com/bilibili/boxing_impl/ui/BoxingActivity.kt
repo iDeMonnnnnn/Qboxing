@@ -19,6 +19,8 @@ package com.bilibili.boxing_impl.ui
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import com.bilibili.boxing.AbsBoxingActivity
 import com.bilibili.boxing.AbsBoxingViewFragment
 import com.bilibili.boxing.model.config.BoxingConfig
@@ -26,7 +28,6 @@ import com.bilibili.boxing.model.entity.BaseMedia
 import com.bilibili.boxing.utils.asType
 import com.bilibili.boxing.utils.asTypeNull
 import com.bilibili.boxing_impl.R
-import kotlinx.android.synthetic.main.activity_boxing.*
 import java.util.*
 
 /**
@@ -34,10 +35,14 @@ import java.util.*
  * A simple subclass of [AbsBoxingActivity]. Holding a [AbsBoxingViewFragment] to display medias.
  */
 class BoxingActivity : AbsBoxingActivity() {
+    private lateinit var nav_top_bar: Toolbar
+    private lateinit var pick_album_txt: TextView
     private var mPickerFragment: BoxingViewFragment? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_boxing)
+        nav_top_bar = findViewById(R.id.nav_top_bar)
+        pick_album_txt = findViewById(R.id.pick_album_txt)
         createToolbar()
         setTitleTxt(boxingConfig)
     }

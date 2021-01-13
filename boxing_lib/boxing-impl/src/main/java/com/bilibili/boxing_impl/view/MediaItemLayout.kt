@@ -24,6 +24,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
@@ -37,7 +38,6 @@ import com.bilibili.boxing_impl.BoxingResHelper.mediaUncheckedRes
 import com.bilibili.boxing_impl.R
 import com.bilibili.boxing_impl.WindowManagerHelper.getScreenHeight
 import com.bilibili.boxing_impl.WindowManagerHelper.getScreenWidth
-import kotlinx.android.synthetic.main.layout_boxing_media_item.view.*
 
 /**
  * A media layout for [androidx.recyclerview.widget.RecyclerView] item, including image and video <br></br>
@@ -50,6 +50,10 @@ class MediaItemLayout @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
     private val mScreenType: ScreenType
+    private var media_item: ImageView
+    private var media_item_check: ImageView
+    private var media_font_layout: View
+    private var video_layout: FrameLayout
 
     private enum class ScreenType(var value: Int) {
         SMALL(100), NORMAL(180), LARGE(320);
@@ -131,6 +135,10 @@ class MediaItemLayout @JvmOverloads constructor(
     init {
         LayoutInflater.from(context)
             .inflate(R.layout.layout_boxing_media_item, this, true)
+        media_item = findViewById(R.id.media_item)
+        media_font_layout = findViewById(R.id.media_font_layout)
+        video_layout = findViewById(R.id.video_layout)
+        media_item_check = findViewById(R.id.media_item_check)
         mScreenType = getScreenType(context)
         setImageRect(context)
     }

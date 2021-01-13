@@ -28,9 +28,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupWindow
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -53,7 +51,6 @@ import com.bilibili.boxing_impl.adapter.BoxingMediaAdapter
 import com.bilibili.boxing_impl.view.HackyGridLayoutManager
 import com.bilibili.boxing_impl.view.MediaItemLayout
 import com.bilibili.boxing_impl.view.SpacesItemDecoration
-import kotlinx.android.synthetic.main.fragmant_boxing_view.*
 import java.util.*
 
 /**
@@ -129,22 +126,35 @@ class BoxingViewFragment : AbsBoxingViewFragment(),
         }
     }
 
+    private lateinit var rootView: View
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(
+        rootView = inflater.inflate(
             R.layout.fragmant_boxing_view,
             container,
             false
         )
+        return rootView
     }
 
+    private lateinit var media_recycleview: RecyclerView
+    private lateinit var choose_preview_btn: Button
+    private lateinit var choose_ok_btn: Button
+    private lateinit var empty_txt: TextView
+    private lateinit var loading: ProgressBar
     override fun onViewCreated(
         view: View,
         savedInstanceState: Bundle?
     ) {
+        media_recycleview = rootView.findViewById(R.id.media_recycleview)
+        choose_preview_btn = rootView.findViewById(R.id.choose_preview_btn)
+        choose_ok_btn = rootView.findViewById(R.id.choose_ok_btn)
+        empty_txt = rootView.findViewById(R.id.empty_txt)
+        loading = rootView.findViewById(R.id.loading)
+
         initViews(view)
         super.onViewCreated(view, savedInstanceState)
     }
@@ -274,10 +284,10 @@ class BoxingViewFragment : AbsBoxingViewFragment(),
                     BoxingViewActivity::class.java,
                     medias
                 ).start(
-                        this,
-                        IMAGE_PREVIEW_REQUEST_CODE,
-                        BoxingConfig.ViewMode.PRE_EDIT
-                    )
+                    this,
+                    IMAGE_PREVIEW_REQUEST_CODE,
+                    BoxingConfig.ViewMode.PRE_EDIT
+                )
             }
         }
     }

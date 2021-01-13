@@ -22,6 +22,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.core.os.bundleOf
 import com.bilibili.boxing.AbsBoxingViewActivity
 import com.bilibili.boxing.loader.IBoxingCallback
@@ -31,7 +32,7 @@ import com.bilibili.boxing.utils.asTypeNull
 import com.bilibili.boxing.utils.toGone
 import com.bilibili.boxing.utils.toVisible
 import com.bilibili.boxing_impl.R
-import kotlinx.android.synthetic.main.fragment_boxing_raw_image.*
+import uk.co.senab.photoview.PhotoView
 import uk.co.senab.photoview.PhotoViewAttacher
 import java.lang.ref.WeakReference
 
@@ -48,23 +49,29 @@ class BoxingRawImageFragment : BoxingBaseFragment() {
         mMedia = arguments?.getParcelable(BUNDLE_IMAGE)
     }
 
+    private lateinit var rootView: View
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(
+        rootView = inflater.inflate(
             R.layout.fragment_boxing_raw_image,
             container,
             false
         )
+        return rootView
     }
 
+    private lateinit var photo_view: PhotoView
+    private lateinit var loading: ProgressBar
     override fun onViewCreated(
         view: View,
         savedInstanceState: Bundle?
     ) {
         super.onViewCreated(view, savedInstanceState)
+        photo_view = rootView.findViewById(R.id.photo_view)
+        loading = rootView.findViewById(R.id.loading)
         mAttacher = PhotoViewAttacher(photo_view)
         mAttacher.setRotatable(true)
         mAttacher.setToRightAngle(true)

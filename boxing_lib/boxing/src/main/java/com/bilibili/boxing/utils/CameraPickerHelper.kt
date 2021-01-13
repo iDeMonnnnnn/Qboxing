@@ -206,7 +206,7 @@ class CameraPickerHelper(savedInstance: Bundle?) {
                 Uri.fromFile(file)
             }
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> {
-                FileProvider.getUriForFile(context, "${context.applicationContext.packageName}.fileProvider", outputFile)
+                FileProvider.getUriForFile(context, "${context.applicationContext.packageName}.file.provider", outputFile)
             }
             else -> {
                 Uri.fromFile(file)

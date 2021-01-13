@@ -16,24 +16,25 @@ import com.bilibili.boxing_impl.ui.BoxingActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target.SIZE_ORIGINAL
+import com.demon.qboxing.databinding.ActivityMainBinding
 import com.permissionx.guolindev.PermissionX
-import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
     val REQUEST_CODE = 0x001
-
+    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         BoxingMediaLoader.getInstance().init(GlideLoader())
         BoxingCrop.getInstance().init(BoxingUCrop())
 
         PermissionX.init(this)
             .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
-            .request { allGranted, grantedList, deniedList ->
+            .request { allGranted, _, deniedList ->
                 if (allGranted) {
                     Toast.makeText(this, "All permissions are granted", Toast.LENGTH_LONG).show()
                 } else {
@@ -41,13 +42,13 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         Boxing.init(this)
-        val config = BoxingConfig(BoxingConfig.Mode.SINGLE_IMG) // Mode：Mode.SINGLE_IMG, Mode.MULTI_IMG, Mode.VIDEO
+        val config = BoxingConfig(BoxingConfig.Mode.MULTI_IMG) // Mode：Mode.SINGLE_IMG, Mode.MULTI_IMG, Mode.VIDEO
         config.needCamera().needGif()
-        btn1.setOnClickListener {
+        binding.btn1.setOnClickListener {
             config.withCropOption(BoxingCropOption().setFreeStyle(true))
             Boxing.of(config).withIntent(this@MainActivity, BoxingActivity::class.java).start(this, REQUEST_CODE)
         }
-        btn2.setOnClickListener {
+        binding.btn2.setOnClickListener {
 
         }
     }
@@ -64,7 +65,7 @@ class MainActivity : AppCompatActivity() {
                 val options = RequestOptions().override(SIZE_ORIGINAL)
                 val media = medias[0] as ImageMedia
                 Log.i(TAG, "onActivityResult: $media")
-                Glide.with(img).asBitmap().apply(options).load(media.path).into(img)
+                Glide.with(binding.img).asBitmap().apply(options).load(media.path).into(binding.img)
             }
         }
     }

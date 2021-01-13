@@ -19,6 +19,8 @@ package com.bilibili.boxing_impl.ui
 import android.content.Intent
 import android.os.Bundle
 import android.widget.FrameLayout
+import android.widget.ImageView
+import androidx.appcompat.widget.Toolbar
 import com.bilibili.boxing.AbsBoxingActivity
 import com.bilibili.boxing.AbsBoxingViewFragment
 import com.bilibili.boxing.BoxingMediaLoader
@@ -28,8 +30,6 @@ import com.bilibili.boxing.utils.asType
 import com.bilibili.boxing.utils.asTypeNull
 import com.bilibili.boxing_impl.R
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import kotlinx.android.synthetic.main.activity_boxing_bottom_sheet.*
-import kotlinx.android.synthetic.main.layout_boxing_app_bar.*
 import java.util.*
 
 /**
@@ -40,10 +40,16 @@ import java.util.*
  */
 class BoxingBottomSheetActivity : AbsBoxingActivity() {
     private var mBehavior: BottomSheetBehavior<FrameLayout>? = null
+    private lateinit var nav_top_bar: Toolbar
+    private lateinit var content_layout: FrameLayout
+    private lateinit var media_result: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_boxing_bottom_sheet)
+        nav_top_bar = findViewById(R.id.nav_top_bar)
+        content_layout = findViewById(R.id.content_layout)
+        media_result = findViewById(R.id.media_result)
         createToolbar()
         mBehavior = BottomSheetBehavior.from(content_layout)
         mBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED

@@ -22,8 +22,10 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
@@ -42,7 +44,6 @@ import com.bilibili.boxing_impl.BoxingResHelper.mediaCheckedRes
 import com.bilibili.boxing_impl.BoxingResHelper.mediaUncheckedRes
 import com.bilibili.boxing_impl.R
 import com.bilibili.boxing_impl.view.HackyViewPager
-import kotlinx.android.synthetic.main.activity_boxing_view.*
 
 /**
  * An Activity to show raw image by holding [BoxingViewFragment].
@@ -66,9 +67,13 @@ class BoxingViewActivity : AbsBoxingViewActivity() {
     private var mCurrentImageItem: ImageMedia? = null
     private var mImages: MutableList<BaseMedia> = mutableListOf()
     private var mSelectedMenuItem: MenuItem? = null
+    private lateinit var nav_top_bar: Toolbar
+    private lateinit var image_items_ok: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_boxing_view)
+        nav_top_bar = findViewById(R.id.nav_top_bar)
+        image_items_ok = findViewById(R.id.image_items_ok)
         createToolbar()
         initData()
         initView()

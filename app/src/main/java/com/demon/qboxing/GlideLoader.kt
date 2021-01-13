@@ -24,5 +24,7 @@ class GlideLoader : IBoxingMediaLoader {
     override fun displayRaw(img: ImageView, absPath: Uri?, width: Int, height: Int, callback: IBoxingCallback?) {
         val options = RequestOptions().error(R.drawable.ic_qf_image).placeholder(R.drawable.ic_qf_image).override(Target.SIZE_ORIGINAL)
         Glide.with(img).asBitmap().apply(options).load(absPath).into(img)
+        //大图加载成功的回调
+        callback?.onSuccess()
     }
 }

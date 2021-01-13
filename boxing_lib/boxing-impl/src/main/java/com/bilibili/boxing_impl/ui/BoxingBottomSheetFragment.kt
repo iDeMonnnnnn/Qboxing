@@ -24,6 +24,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -38,7 +40,6 @@ import com.bilibili.boxing_impl.R
 import com.bilibili.boxing_impl.adapter.BoxingMediaAdapter
 import com.bilibili.boxing_impl.view.HackyGridLayoutManager
 import com.bilibili.boxing_impl.view.SpacesItemDecoration
-import kotlinx.android.synthetic.main.fragment_boxing_bottom_sheet.*
 import java.util.*
 
 /**
@@ -57,23 +58,33 @@ class BoxingBottomSheetFragment : AbsBoxingViewFragment() {
         mMediaAdapter = BoxingMediaAdapter(requireActivity())
     }
 
+    private lateinit var rootView: View
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(
+    ): View {
+        rootView = inflater.inflate(
             R.layout.fragment_boxing_bottom_sheet,
             container,
             false
         )
+        return rootView
     }
 
+    private lateinit var media_recycleview: RecyclerView
+    private lateinit var finish_txt: TextView
+    private lateinit var empty_txt: TextView
+    private lateinit var loading: ProgressBar
     override fun onViewCreated(
         view: View,
         savedInstanceState: Bundle?
     ) {
         super.onViewCreated(view, savedInstanceState)
+        media_recycleview = rootView.findViewById(R.id.media_recycleview)
+        finish_txt = rootView.findViewById(R.id.finish_txt)
+        empty_txt = rootView.findViewById(R.id.empty_txt)
+        loading = rootView.findViewById(R.id.loading)
         media_recycleview.setHasFixedSize(true)
         val gridLayoutManager: GridLayoutManager =
             HackyGridLayoutManager(

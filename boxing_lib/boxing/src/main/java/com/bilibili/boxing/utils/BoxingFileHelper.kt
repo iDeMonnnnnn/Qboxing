@@ -100,7 +100,7 @@ object BoxingFileHelper {
             else -> {
                 FileProvider.getUriForFile(
                     context,
-                    "${context.applicationContext.packageName}.fileProvider", File(media.path)
+                    "${context.applicationContext.packageName}.file.provider", File(media.path)
                 )
             }
         }
@@ -129,7 +129,7 @@ object BoxingFileHelper {
  */
 fun File.getFileUri(context: Context): Uri {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        FileProvider.getUriForFile(context, "${context.packageName}.fileProvider", this)
+        FileProvider.getUriForFile(context, "${context.packageName}.file.provider", this)
     } else {
         Uri.fromFile(this)
     }

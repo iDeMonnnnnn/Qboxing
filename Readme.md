@@ -22,7 +22,7 @@ allprojects {
 [latest_version](https://github.com/iDeMonnnnnn/Qboxing/releases)
 ```
 dependencies {
-	        implementation 'com.github.iDeMonnnnnn.Qboxing:boxing:1.0'
+	        implementation 'com.github.iDeMonnnnnn.Qboxing:boxing:$latest_version'
 	}
 ```
 
