@@ -1,4 +1,4 @@
-package com.demon.qxing
+package com.demon.qboxing
 
 import android.net.Uri
 import android.widget.ImageView

@@ -1,4 +1,4 @@
-package com.demon.qxing
+package com.demon.qboxing
 
 import android.Manifest
 import android.content.Intent

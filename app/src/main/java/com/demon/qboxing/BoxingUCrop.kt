@@ -1,6 +1,6 @@
 @file:JvmName("BoxingUCrop")
 
-package com.demon.qxing
+package com.demon.qboxing
 
 import android.content.Context
 import android.content.Intent
