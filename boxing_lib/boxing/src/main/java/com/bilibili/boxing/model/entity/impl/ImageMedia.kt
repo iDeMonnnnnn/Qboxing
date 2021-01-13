@@ -260,7 +260,7 @@ class ImageMedia : BaseMedia, Parcelable {
     }
 
     override fun toString(): String {
-        return "ImageMedia(id='$id',mThumbnailPath='$mThumbnailPath', compressPath='$compressPath', path='$path', imageType='$imageType', uri='$uri',sandboxPath='$sandboxPath')"
+        return "ImageMedia(id='$id',mThumbnailPath='$mThumbnailPath', compressPath='$compressPath', path='$path', imageType='$imageType', uri='$uri')"
     }
 
     protected constructor(`in`: Parcel) : super(`in`) {

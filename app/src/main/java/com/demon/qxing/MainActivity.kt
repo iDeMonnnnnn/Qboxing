@@ -12,8 +12,6 @@ import com.bilibili.boxing.model.config.BoxingConfig
 import com.bilibili.boxing.model.config.BoxingCropOption
 import com.bilibili.boxing.model.entity.BaseMedia
 import com.bilibili.boxing.model.entity.impl.ImageMedia
-import com.bilibili.boxing.utils.ImageCompressor
-import com.bilibili.boxing.utils.getBoxingCachePath
 import com.bilibili.boxing_impl.ui.BoxingActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -46,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         val config = BoxingConfig(BoxingConfig.Mode.SINGLE_IMG) // Mode：Mode.SINGLE_IMG, Mode.MULTI_IMG, Mode.VIDEO
         config.needCamera().needGif()
         btn1.setOnClickListener {
-            config.withCropOption(BoxingCropOption(getBoxingCachePath()).aspectRatio(16f, 16f))
+            config.withCropOption(BoxingCropOption().setFreeStyle(true))
             Boxing.of(config).withIntent(this@MainActivity, BoxingActivity::class.java).start(this, REQUEST_CODE)
         }
         btn2.setOnClickListener {
@@ -66,7 +64,7 @@ class MainActivity : AppCompatActivity() {
                 val options = RequestOptions().override(SIZE_ORIGINAL)
                 val media = medias[0] as ImageMedia
                 Log.i(TAG, "onActivityResult: $media")
-                Glide.with(img).asBitmap().apply(options).load(media.uri).into(img)
+                Glide.with(img).asBitmap().apply(options).load(media.path).into(img)
             }
         }
     }

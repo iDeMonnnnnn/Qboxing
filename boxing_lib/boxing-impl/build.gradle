@@ -45,11 +45,10 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "com.google.android.material:material:$materialVersion"
+    implementation "androidx.core:core-ktx:$ktxVersion"
     implementation('com.chensl.rotatephotoview:rotatephotoview:1.0.5') {
         exclude group: 'com.android.support'
     }
     api project(":boxing_lib:boxing")
-    implementation "androidx.core:core-ktx:$ktxVersion"
 }

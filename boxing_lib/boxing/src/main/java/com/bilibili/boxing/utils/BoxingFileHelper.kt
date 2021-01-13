@@ -29,6 +29,8 @@ import android.provider.MediaStore
 import android.util.Log
 import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
+import com.bilibili.boxing.Boxing
+import com.bilibili.boxing.BoxingCrop
 import com.bilibili.boxing.model.entity.BaseMedia
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
@@ -113,6 +115,11 @@ object BoxingFileHelper {
     @JvmStatic
     fun isFileValid(file: File?): Boolean {
         return file != null && file.exists() && file.isFile && file.length() > 0 && file.canRead()
+    }
+
+    @JvmStatic
+    fun getBoxingCachePath(): Uri {
+        return Uri.fromFile(File(getCacheDir(Boxing.mContext), "${System.currentTimeMillis()}.jpg"))
     }
 }
 
@@ -353,8 +360,3 @@ fun String.getExtensionByFileName() =
  */
 fun String.getMimeTypeByFileName(): String =
     URLConnection.getFileNameMap().getContentTypeFor(this)
-
-
-fun Context.getBoxingCachePath(): Uri {
-    return Uri.fromFile(File(BoxingFileHelper.getCacheDir(this), "${System.currentTimeMillis()}.jpg"))
-}

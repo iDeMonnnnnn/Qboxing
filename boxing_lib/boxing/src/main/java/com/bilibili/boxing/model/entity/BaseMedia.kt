@@ -39,20 +39,17 @@ abstract class BaseMedia : Parcelable {
 
     var id: String = ""
     var path: String = ""
-    var mSize: String = ""
-    var sandboxPath: String? = null
         get() {
-            if (field != null) return field
-            return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || File(path).exists()) {
-                path
-            } else {
-                uri.uriToFile(Boxing.mContext)?.absolutePath
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q && !File(field).exists()) {
+                field = uri.uriToFile(Boxing.mContext)?.absolutePath ?: ""
             }
+            return field
         }
+    var mSize: String = ""
     var uri: Uri? = null
         get() {
             if (field != null) return field
-            return if (id.isEmpty()) {
+            field = if (id.isEmpty()) {
                 File(path).getFileUri(Boxing.mContext)
             } else {
                 if (type == TYPE.IMAGE) {
@@ -61,6 +58,7 @@ abstract class BaseMedia : Parcelable {
                     ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id.toLong())
                 }
             }
+            return field
         }
 
     constructor(id: String?, path: String?) {

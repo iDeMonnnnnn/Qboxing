@@ -16,11 +16,13 @@
  */
 @file:Suppress("unused")
 @file:JvmName("BoxingCropOption")
+
 package com.bilibili.boxing.model.config
 
 import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
+import com.bilibili.boxing.utils.BoxingFileHelper
 
 /**
  * The cropping config, a cropped photo uri is needed at least.
@@ -41,6 +43,12 @@ class BoxingCropOption : Parcelable {
     var isFreeStyle = false
         private set
 
+    init {
+        this.destination = BoxingFileHelper.getBoxingCachePath()
+    }
+
+    constructor()
+
     constructor(destination: Uri) {
         this.destination = destination
     }
@@ -52,12 +60,12 @@ class BoxingCropOption : Parcelable {
     fun aspectRatio(
         x: Float,
         y: Float
-    )= apply {
+    ) = apply {
         aspectRatioX = x
         aspectRatioY = y
     }
 
-    fun useSourceImageAspectRatio()= apply {
+    fun useSourceImageAspectRatio() = apply {
         aspectRatioX = 0f
         aspectRatioY = 0f
     }
@@ -65,7 +73,7 @@ class BoxingCropOption : Parcelable {
     fun withMaxResultSize(
         width: Int,
         height: Int
-    )= apply {
+    ) = apply {
         maxWidth = width
         maxHeight = height
     }
@@ -90,8 +98,10 @@ class BoxingCropOption : Parcelable {
         maxHeight = `in`.readInt()
     }
 
+
     companion object {
         const val CROP_IMAGE_ACTIVITY_REQUEST_CODE = 2333
+
         @JvmStatic
         fun with(destination: Uri): BoxingCropOption {
             return BoxingCropOption(destination)
