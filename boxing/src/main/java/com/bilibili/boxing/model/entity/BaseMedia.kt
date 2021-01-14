@@ -16,14 +16,12 @@
  */
 package com.bilibili.boxing.model.entity
 
-import android.content.ContentUris
 import android.net.Uri
 import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
-import android.provider.MediaStore
-import com.bilibili.boxing.*
-import com.bilibili.boxing.utils.getFileUri
+import com.bilibili.boxing.Boxing
+import com.bilibili.boxing.utils.BoxingFileHelper
 import com.bilibili.boxing.utils.uriToFile
 import java.io.File
 
@@ -49,15 +47,7 @@ abstract class BaseMedia : Parcelable {
     var uri: Uri? = null
         get() {
             if (field != null) return field
-            field = if (id.isEmpty()) {
-                File(path).getFileUri(Boxing.mContext)
-            } else {
-                if (type == TYPE.IMAGE) {
-                    ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id.toLong())
-                } else {
-                    ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id.toLong())
-                }
-            }
+            field = BoxingFileHelper.getFileUri(Boxing.mContext, this)
             return field
         }
 

@@ -12,26 +12,30 @@ import com.bilibili.boxing.model.config.BoxingConfig
 import com.bilibili.boxing.model.config.BoxingCropOption
 import com.bilibili.boxing.model.entity.BaseMedia
 import com.bilibili.boxing.model.entity.impl.ImageMedia
+import com.bilibili.boxing.utils.ImageCompressor
 import com.bilibili.boxing_impl.ui.BoxingActivity
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.Target.SIZE_ORIGINAL
 import com.demon.qboxing.databinding.ActivityMainBinding
 import com.permissionx.guolindev.PermissionX
 
 
 class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
-    val REQUEST_CODE = 0x001
+    val REQUEST_IMG_CODE = 0x001
     private lateinit var binding: ActivityMainBinding
+
+    val adapter = ImgsAdapter()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        //初始化
+        Boxing.init(this)
+        /**
+         * 初始化图片加载器
+         * @see GlideLoader
+         */
         BoxingMediaLoader.getInstance().init(GlideLoader())
-        BoxingCrop.getInstance().init(BoxingUCrop())
-
+        //申请权限
         PermissionX.init(this)
             .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
             .request { allGranted, _, deniedList ->
@@ -41,32 +45,84 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, "These permissions are denied: $deniedList", Toast.LENGTH_LONG).show()
                 }
             }
-        Boxing.init(this)
-        val config = BoxingConfig(BoxingConfig.Mode.MULTI_IMG) // Mode：Mode.SINGLE_IMG, Mode.MULTI_IMG, Mode.VIDEO
-        config.needCamera().needGif()
+        // Mode：Mode.SINGLE_IMG, Mode.MULTI_IMG, Mode.VIDEO
         binding.btn1.setOnClickListener {
-            config.withCropOption(BoxingCropOption().setFreeStyle(true))
-            Boxing.of(config).withIntent(this@MainActivity, BoxingActivity::class.java).start(this, REQUEST_CODE)
+            //单选
+            val config = BoxingConfig(BoxingConfig.Mode.SINGLE_IMG).needCamera().needGif()
+            Boxing.of(config).withIntent(this@MainActivity, BoxingActivity::class.java).start(this, REQUEST_IMG_CODE)
         }
         binding.btn2.setOnClickListener {
-
+            //多选，默认9张
+            val config = BoxingConfig(BoxingConfig.Mode.MULTI_IMG).withMaxCount(9)
+            Boxing.of(config).withIntent(this@MainActivity, BoxingActivity::class.java).start(this, REQUEST_IMG_CODE)
         }
+        binding.btn3.setOnClickListener {
+            //压缩图片
+            Toast.makeText(this, "开始压缩！", Toast.LENGTH_SHORT).show()
+            adapter.datas.forEach {
+                it.compress(ImageCompressor(this))
+            }
+            Toast.makeText(this, "压缩完成!", Toast.LENGTH_SHORT).show()
+            adapter.notifyDataSetChanged()
+        }
+
+        /**
+         * 推荐使用UCrop裁剪
+         * @see BoxingUCrop
+         */
+        binding.btn4.setOnClickListener {
+            //初始化裁剪，UCrop
+            BoxingCrop.getInstance().init(BoxingUCrop())
+            //单选比例裁剪，需要设置比例
+            val config = BoxingConfig(BoxingConfig.Mode.SINGLE_IMG).needCamera()
+            config.withCropOption(BoxingCropOption().aspectRatio(1.0f, 1.0f))
+            Boxing.of(config).withIntent(this@MainActivity, BoxingActivity::class.java).start(this, REQUEST_IMG_CODE)
+        }
+        binding.btn5.setOnClickListener {
+            //初始化裁剪，UCrop
+            BoxingCrop.getInstance().init(BoxingUCrop())
+            //单选自由裁剪,无须设置比例，需要setFreeStyle(true)
+            val config = BoxingConfig(BoxingConfig.Mode.SINGLE_IMG).needCamera()
+            config.withCropOption(BoxingCropOption().setFreeStyle(true))
+            Boxing.of(config).withIntent(this@MainActivity, BoxingActivity::class.java).start(this, REQUEST_IMG_CODE)
+        }
+
+        /**
+         * 系统裁剪在不同手机的表现都有差异，建议使用UCrop
+         * @see BoxingSystemCrop
+         */
+        binding.btn6.setOnClickListener {
+            //初始化裁剪，系统裁剪
+            BoxingCrop.getInstance().init(BoxingSystemCrop())
+            //单选比例裁剪，需要设置比例
+            val config = BoxingConfig(BoxingConfig.Mode.SINGLE_IMG).needCamera()
+            config.withCropOption(BoxingCropOption().withMaxResultSize(200, 300))
+            Boxing.of(config).withIntent(this@MainActivity, BoxingActivity::class.java).start(this, REQUEST_IMG_CODE)
+        }
+        binding.btn7.setOnClickListener {
+            //初始化裁剪，系统裁剪
+            BoxingCrop.getInstance().init(BoxingSystemCrop())
+            //单选自由裁剪,无须设置比例，需要setFreeStyle(true)
+            val config = BoxingConfig(BoxingConfig.Mode.SINGLE_IMG).needCamera()
+            config.withCropOption(BoxingCropOption().setFreeStyle(true).withMaxResultSize(200, 300))
+            Boxing.of(config).withIntent(this@MainActivity, BoxingActivity::class.java).start(this, REQUEST_IMG_CODE)
+        }
+        binding.rv.adapter = adapter
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+        if (resultCode == RESULT_OK && requestCode == REQUEST_IMG_CODE) {
             val medias: List<BaseMedia>? = getResult(data)
+            val imgMedias = mutableListOf<ImageMedia>()
             medias?.forEach {
                 Log.i(TAG, "onActivityResult: $it")
+                if (it is ImageMedia) {
+                    imgMedias.add(it)
+                }
             }
-            if (medias != null) {
-                val options = RequestOptions().override(SIZE_ORIGINAL)
-                val media = medias[0] as ImageMedia
-                Log.i(TAG, "onActivityResult: $media")
-                Glide.with(binding.img).asBitmap().apply(options).load(media.path).into(binding.img)
-            }
+            adapter.datas = imgMedias
+            adapter.notifyDataSetChanged()
         }
     }
 }

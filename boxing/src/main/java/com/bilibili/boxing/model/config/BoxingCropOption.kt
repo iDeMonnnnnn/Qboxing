@@ -100,8 +100,6 @@ class BoxingCropOption : Parcelable {
 
 
     companion object {
-        const val CROP_IMAGE_ACTIVITY_REQUEST_CODE = 2333
-
         @JvmStatic
         fun with(destination: Uri): BoxingCropOption {
             return BoxingCropOption(destination)

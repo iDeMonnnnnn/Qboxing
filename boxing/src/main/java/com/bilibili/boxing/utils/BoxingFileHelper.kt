@@ -30,7 +30,6 @@ import android.util.Log
 import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
 import com.bilibili.boxing.Boxing
-import com.bilibili.boxing.BoxingCrop
 import com.bilibili.boxing.model.entity.BaseMedia
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
@@ -120,18 +119,6 @@ object BoxingFileHelper {
     @JvmStatic
     fun getBoxingCachePath(): Uri {
         return Uri.fromFile(File(getCacheDir(Boxing.mContext), "${System.currentTimeMillis()}.jpg"))
-    }
-}
-
-
-/**
- * fileProvider
- */
-fun File.getFileUri(context: Context): Uri {
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        FileProvider.getUriForFile(context, "${context.packageName}.file.provider", this)
-    } else {
-        Uri.fromFile(this)
     }
 }
 

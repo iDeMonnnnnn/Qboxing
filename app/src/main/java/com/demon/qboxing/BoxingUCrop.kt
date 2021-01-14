@@ -11,13 +11,12 @@ import androidx.fragment.app.Fragment
 import com.bilibili.boxing.loader.IBoxingCrop
 import com.bilibili.boxing.model.config.BoxingCropOption
 import com.bilibili.boxing.model.entity.BaseMedia
-import com.bilibili.boxing.utils.BoxingFileHelper
 import com.yalantis.ucrop.UCrop
 import com.yalantis.ucrop.UCrop.Options
 
 /**
  * use Ucrop(https://github.com/Yalantis/uCrop) as the implement for [IBoxingCrop]
- *
+ * 注意：Ucrop已适配AndroidX和AndroidQ可以直接使用
  * @author ChenSL
  */
 class BoxingUCrop : IBoxingCrop {
@@ -28,22 +27,23 @@ class BoxingUCrop : IBoxingCrop {
         media: BaseMedia,
         requestCode: Int
     ) {
-        val ucropUri = BoxingFileHelper.getFileUri(context, media)
-        val crop = Options()
-        // do not copy exif information to crop pictures
-        // because png do not have exif and png is not Distinguishable
-        crop.setCompressionFormat(CompressFormat.PNG)
-        crop.setHideBottomControls(true)
-        crop.setFreeStyleCropEnabled(cropConfig.isFreeStyle)
-        crop.withMaxResultSize(cropConfig.maxWidth, cropConfig.maxHeight)
-        crop.withAspectRatio(cropConfig.aspectRatioX, cropConfig.aspectRatioY)
-        crop.setStatusBarColor(ActivityCompat.getColor(context, R.color.teal_200))
-        crop.setToolbarColor(ActivityCompat.getColor(context, R.color.teal_200))
-        crop.setShowCropGrid(false)
-        cropConfig.destination?.let {
-            UCrop.of(ucropUri, it)
-                .withOptions(crop)
-                .start(context, fragment, requestCode)
+        media.uri?.run {
+            val crop = Options()
+            // do not copy exif information to crop pictures
+            // because png do not have exif and png is not Distinguishable
+            crop.setCompressionFormat(CompressFormat.PNG)
+            crop.setHideBottomControls(true)
+            crop.setFreeStyleCropEnabled(cropConfig.isFreeStyle)
+            crop.withMaxResultSize(cropConfig.maxWidth, cropConfig.maxHeight)
+            crop.withAspectRatio(cropConfig.aspectRatioX, cropConfig.aspectRatioY)
+            crop.setStatusBarColor(ActivityCompat.getColor(context, R.color.teal_200))
+            crop.setToolbarColor(ActivityCompat.getColor(context, R.color.teal_200))
+            crop.setShowCropGrid(false)
+            cropConfig.destination?.let {
+                UCrop.of(this, it)
+                    .withOptions(crop)
+                    .start(context, fragment, requestCode)
+            }
         }
     }
 
