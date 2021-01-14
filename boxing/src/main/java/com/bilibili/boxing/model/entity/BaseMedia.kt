@@ -39,7 +39,7 @@ abstract class BaseMedia : Parcelable {
     var path: String = ""
 
     /**
-     * AndroidQ请使用newPath代替path
+     * 使用newPath代替path，兼容了AndroidQ无法获取非作用域文件的问题
      */
     var newPath: String = ""
         get() {

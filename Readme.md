@@ -27,7 +27,20 @@ dependencies {
 
 #### 如何使用
 
-1. 使用方法与[boxing](https://github.com/bilibili/boxing)完全一致，可参见其文档
+##### 1.初始化
+使用前，必须调用此方法初始化。
+```
+//初始化，提供一个全局的Context
+Boxing.init(this)
+```
+
+##### 2.获取图片路径
+
+使用newPath代替path，兼容了AndroidQ无法获取非作用域文件的问题。
+
+
+#### 3.更多
+1. 基本使用方法与[boxing](https://github.com/bilibili/boxing)完全一致，可参见其文档
 2. 参考[app](https://github.com/iDeMonnnnnn/Qboxing/tree/master/app)使用实例
 
 #### 使用体验
