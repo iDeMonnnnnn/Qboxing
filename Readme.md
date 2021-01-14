@@ -36,6 +36,8 @@ dependencies {
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 ```
 
+
+
 #### 如何使用
 
 ##### 1.初始化
@@ -45,7 +47,21 @@ dependencies {
 Boxing.init(this)
 ```
 
-##### 2.获取图片路径
+##### 2.FileProvider
+
+```xml
+    <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.file.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+```
+
+##### 3.获取图片路径
 
 使用newPath代替path，兼容了AndroidQ无法直接通过文件路径获取非作用域文件的问题。
 
@@ -53,7 +69,7 @@ Boxing.init(this)
 media.path ---> media.newPath
 ```
 
-#### 3.更多
+#### 4.更多
 1. 基本使用方法与[boxing](https://github.com/bilibili/boxing)完全一致，可参见其文档
 2. 参考[app](https://github.com/iDeMonnnnnn/Qboxing/tree/master/app)使用示例
 
