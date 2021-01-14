@@ -81,7 +81,7 @@ class BoxingAlbumAdapter(context: Context) :
                     .displayThumbnail(holder.mCoverImg, media.uri, 50, 50)
                 holder.mCoverImg.setTag(
                     R.string.boxing_app_name,
-                    media.path
+                    media.uri.toString()
                 )
             }
             holder.mLayout.tag = adapterPos

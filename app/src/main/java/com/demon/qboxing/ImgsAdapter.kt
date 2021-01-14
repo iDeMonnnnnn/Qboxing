@@ -32,7 +32,7 @@ class ImgsAdapter : RecyclerView.Adapter<ImgsAdapter.Holder>() {
         val media = datas[position]
         val options = RequestOptions().override(SIZE_ORIGINAL)
         val path = if (media.compressPath.isEmpty()) {
-            media.path
+            media.newPath
         } else {
             media.compressPath
         }

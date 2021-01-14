@@ -22,8 +22,8 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.bilibili.boxing.Boxing
 import com.bilibili.boxing.utils.BoxingFileHelper
+import com.bilibili.boxing.utils.isExistScope
 import com.bilibili.boxing.utils.uriToFile
-import java.io.File
 
 /**
  * The base entity for media.
@@ -37,9 +37,17 @@ abstract class BaseMedia : Parcelable {
 
     var id: String = ""
     var path: String = ""
+
+    /**
+     * AndroidQ请使用newPath代替path
+     */
+    var newPath: String = ""
         get() {
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q && !File(field).exists()) {
-                field = uri.uriToFile(Boxing.mContext)?.absolutePath ?: ""
+            if (field.isNotEmpty()) return field
+            field = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && !path.isExistScope()) {
+                uri.uriToFile(Boxing.mContext)?.absolutePath ?: ""
+            } else {
+                path
             }
             return field
         }

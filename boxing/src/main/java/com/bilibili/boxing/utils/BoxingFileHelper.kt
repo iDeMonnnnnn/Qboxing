@@ -321,6 +321,13 @@ fun Uri.saveFileByUri(context: Context): File? {
 }
 
 /**
+ * 文件是否存在作用域内
+ */
+fun String.isExistScope(): Boolean =
+    this.contains("/Android/data/${Boxing.mContext.packageName}") && File(this).exists()
+
+
+/**
  * 根据Uri获取扩展名
  */
 fun Uri.getExtensionByUri(context: Context) = this.getMimeTypeByUri(context)?.getExtensionByMimeType()

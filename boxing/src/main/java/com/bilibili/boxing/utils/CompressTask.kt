@@ -53,7 +53,7 @@ object CompressTask {
             return false
         }
         val task = BoxingExecutor.getInstance().runWorker(Callable {
-            val path = image.path
+            val path = image.newPath
             val compressSaveFile = imageCompressor.getCompressOutFile(path)
             val needCompressFile = File(path)
             if (isFileValid(compressSaveFile)) {
