@@ -6,7 +6,7 @@
 相较于boxing:
 1. 兼容AndroidQ
 2. 适配AndroidX
-3. 代码kotlin
+3. kotlin代码
 
 ### 开始使用
 #### 添加依赖
@@ -25,6 +25,18 @@ dependencies {
 	}
 ```
 
+#### 添加权限
+
+**注意申请运行时权限。**
+
+```
+    <!--如果你使用相机相关功能必须要添加，否则可忽略-->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!--存储权限在低于AndroidQ的手机上还是需要的-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+```
+
 #### 如何使用
 
 ##### 1.初始化
@@ -41,11 +53,21 @@ Boxing.init(this)
 
 #### 3.更多
 1. 基本使用方法与[boxing](https://github.com/bilibili/boxing)完全一致，可参见其文档
-2. 参考[app](https://github.com/iDeMonnnnnn/Qboxing/tree/master/app)使用实例
+2. 参考[app](https://github.com/iDeMonnnnnn/Qboxing/tree/master/app)使用示例
 
-#### 使用体验
-[下载Demo.apk体验](https://github.com/iDeMonnnnnn/QFsolution/raw/master/QFDemo.apk)
+#### 使用效果
 
+[下载Demo.apk体验](https://github.com/iDeMonnnnnn/Qboxing/raw/master/Qboxing.apk)
+
+![xxx](https://github.com/iDeMonnnnnn/Qboxing/blob/master/181212.png?raw=true)
+
+### 其他
+
+如果你有问题或者建议，请[Issues](https://github.com/iDeMonnnnnn/QFsolution/issues)或者Email.
+
+### 致谢
+[boxing](https://github.com/bilibili/boxing)
+[QFsolution](https://github.com/iDeMonnnnnn/QFsolution)
 
 ### MIT License
 
