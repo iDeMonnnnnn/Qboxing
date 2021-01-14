@@ -1,12 +1,11 @@
-[![](https://jitpack.io/v/iDeMonnnnnn/Qboxing.svg)](https://jitpack.io/#iDeMonnnnnn/Qboxing)
-# Qboxing
+# Qboxing - 基于[boxing](https://github.com/bilibili/boxing)的AndroidQ升级适配。
 
-基于[boxing](https://github.com/bilibili/boxing)的AndroidQ升级适配。
+[![](https://jitpack.io/v/iDeMonnnnnn/Qboxing.svg)](https://jitpack.io/#iDeMonnnnnn/Qboxing)
 
 相较于boxing:
 1. 兼容AndroidQ
 2. 适配AndroidX
-3. kotlin代码
+3. 100%的Kotlin代码
 
 ### 开始使用
 #### 添加依赖
