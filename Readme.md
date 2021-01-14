@@ -1,4 +1,4 @@
-## Qboxing - 基于[boxing](https://github.com/bilibili/boxing)的AndroidQ升级适配
+## Qboxing - 基于[boxing](https://github.com/bilibili/boxing)的AndroidQ适配
 
 [![](https://jitpack.io/v/iDeMonnnnnn/Qboxing.svg)](https://jitpack.io/#iDeMonnnnnn/Qboxing)
 
