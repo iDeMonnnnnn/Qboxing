@@ -29,7 +29,7 @@ dependencies {
 
 **注意申请运行时权限。**
 
-```
+```xml
     <!--如果你使用相机相关功能必须要添加，否则可忽略-->
     <uses-permission android:name="android.permission.CAMERA" />
     <!--存储权限在低于AndroidQ的手机上还是需要的-->
@@ -41,15 +41,18 @@ dependencies {
 
 ##### 1.初始化
 使用前，必须调用此方法初始化。
-```
+```js
 //初始化，提供一个全局的Context
 Boxing.init(this)
 ```
 
 ##### 2.获取图片路径
 
-使用newPath代替path，兼容了AndroidQ无法获取非作用域文件的问题。
+使用newPath代替path，兼容了AndroidQ无法直接通过文件路径获取非作用域文件的问题。
 
+```js
+media.path ---> media.newPath
+```
 
 #### 3.更多
 1. 基本使用方法与[boxing](https://github.com/bilibili/boxing)完全一致，可参见其文档
@@ -63,7 +66,7 @@ Boxing.init(this)
 
 ### 其他
 
-如果你有问题或者建议，请[Issues](https://github.com/iDeMonnnnnn/QFsolution/issues)或者Email.
+如果你有问题或者建议，请[Issues](https://github.com/iDeMonnnnnn/QFsolution/issues).
 
 ### 致谢
 [boxing](https://github.com/bilibili/boxing)
