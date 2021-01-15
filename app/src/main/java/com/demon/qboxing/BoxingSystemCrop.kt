@@ -43,10 +43,10 @@ class BoxingSystemCrop : IBoxingCrop {
                 // aspectX aspectY 是宽高的比例
                 intentCrop.putExtra("aspectX", cropConfig.maxWidth)
                 intentCrop.putExtra("aspectY", cropConfig.maxHeight)
+                // outputX outputY 是裁剪图片宽高
+                intentCrop.putExtra("outputX", cropConfig.maxWidth)
+                intentCrop.putExtra("outputY", cropConfig.maxHeight)
             }
-            // outputX outputY 是裁剪图片宽高
-            intentCrop.putExtra("outputX", cropConfig.maxWidth)
-            intentCrop.putExtra("outputY", cropConfig.maxHeight)
             //是否将数据保留在Bitmap中返回
             intentCrop.putExtra("return-data", true)
             //关闭人脸识别

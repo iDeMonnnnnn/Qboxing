@@ -35,6 +35,7 @@ import android.os.Parcelable
 import android.provider.MediaStore
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
+import com.bilibili.boxing.Boxing
 import com.bilibili.boxing.utils.BoxingExifHelper.getRotateDegree
 import com.bilibili.boxing.utils.BoxingFileHelper.createFile
 import com.bilibili.boxing.utils.BoxingFileHelper.getExternalDCIM
@@ -206,7 +207,7 @@ class CameraPickerHelper(savedInstance: Bundle?) {
                 Uri.fromFile(file)
             }
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> {
-                FileProvider.getUriForFile(context, "${context.applicationContext.packageName}.file.provider", outputFile)
+                FileProvider.getUriForFile(context, "${context.applicationContext.packageName}.${Boxing.authorities}", outputFile)
             }
             else -> {
                 Uri.fromFile(file)

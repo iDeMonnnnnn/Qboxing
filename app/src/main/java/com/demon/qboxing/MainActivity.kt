@@ -28,8 +28,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        //初始化
+        //初始化，提供一个全局的Context
         Boxing.init(this)
+        //考虑到不同项目中FileProvider的authorities可能不一样
+        //因此这里改成可以根据自己项目FileProvider的authorities自由设置
+        //如:android:authorities="${applicationId}.fileProvider",你只需要传入“fileProvider”即可
+        Boxing.setFileProvider("fileProvider")
         /**
          * 初始化图片加载器
          * @see GlideLoader
@@ -104,7 +108,7 @@ class MainActivity : AppCompatActivity() {
             BoxingCrop.getInstance().init(BoxingSystemCrop())
             //单选自由裁剪,无须设置比例，需要setFreeStyle(true)
             val config = BoxingConfig(BoxingConfig.Mode.SINGLE_IMG).needCamera()
-            config.withCropOption(BoxingCropOption().setFreeStyle(true).withMaxResultSize(200, 300))
+            config.withCropOption(BoxingCropOption().setFreeStyle(true))
             Boxing.of(config).withIntent(this@MainActivity, BoxingActivity::class.java).start(this, REQUEST_IMG_CODE)
         }
         binding.rv.adapter = adapter

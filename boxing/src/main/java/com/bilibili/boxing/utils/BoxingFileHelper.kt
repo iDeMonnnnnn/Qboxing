@@ -99,7 +99,7 @@ object BoxingFileHelper {
             else -> {
                 FileProvider.getUriForFile(
                     context,
-                    "${context.applicationContext.packageName}.file.provider", File(media.path)
+                    "${context.applicationContext.packageName}.${Boxing.authorities}", File(media.path)
                 )
             }
         }
@@ -119,6 +119,17 @@ object BoxingFileHelper {
     @JvmStatic
     fun getBoxingCachePath(): Uri {
         return Uri.fromFile(File(getCacheDir(Boxing.mContext), "${System.currentTimeMillis()}.jpg"))
+    }
+
+    /**
+     * fileProvider
+     */
+    fun getFileUri(file: File): Uri {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            FileProvider.getUriForFile(Boxing.mContext, "${Boxing.mContext.packageName}.${Boxing.authorities}", file)
+        } else {
+            Uri.fromFile(file)
+        }
     }
 }
 

@@ -210,9 +210,18 @@ class Boxing private constructor(config: BoxingConfig) {
         const val EXTRA_START_POS = "com.bilibili.boxing.Boxing.start_pos"
         lateinit var mContext: Context
 
+        //设置FileProvider的authorities
+        //默认与boxing的配置一致，"file.provider"
+        var authorities: String = "file.provider"
+
         @JvmStatic
         fun init(context: Context) {
-            mContext = context;
+            mContext = context
+        }
+
+        @JvmStatic
+        fun setFileProvider(authorities: String) {
+            this.authorities = authorities
         }
 
         /**

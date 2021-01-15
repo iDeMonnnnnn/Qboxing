@@ -7,7 +7,17 @@
 2. 适配AndroidX
 3. 100%的Kotlin代码
 
+### boxing相关说明
+如果你已经集成使用了boxing，请仔细看以下几点说明迁移到本库。
+否则可以跳过，直接开始使用。
+
+1. 删除boxing库的依赖，直接使用本库的依赖代替。
+2. 参考下面的开始使用，对你的代码进行修改。
+3. 如有疑问，可以[Issues](https://github.com/iDeMonnnnnn/QFsolution/issues)
+
+
 ### 开始使用
+
 #### 添加依赖
 ```
 allprojects {
@@ -49,16 +59,23 @@ Boxing.init(this)
 
 ##### 2.FileProvider
 
+```js
+//考虑到不同项目中FileProvider的authorities可能不一样
+//因此这里改成可以根据自己项目FileProvider的authorities自由设置
+//如:android:authorities="${applicationId}.fileProvider",你只需要传入“fileProvider”即可
+Boxing.setFileProvider("fileProvider")
+```
+
 ```xml
-    <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.file.provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
-        </provider>
+<provider
+     android:name="androidx.core.content.FileProvider"
+     android:authorities="${applicationId}.fileProvider"
+     android:exported="false"
+     android:grantUriPermissions="true">
+     <meta-data
+         android:name="android.support.FILE_PROVIDER_PATHS"
+         android:resource="@xml/file_paths" />
+</provider>
 ```
 
 ##### 3.获取图片路径
@@ -68,6 +85,17 @@ Boxing.init(this)
 ```js
 media.path ---> media.newPath
 ```
+
+##### 4.初始化图片加载器
+
+可参考:[GlideLoader.kt](https://github.com/iDeMonnnnnn/Qboxing/blob/master/app/src/main/java/com/demon/qboxing/GlideLoader.kt)
+
+**注意：为了兼容AndroidQ，IBoxingMediaLoader接口由原来的加载图片路径，改为了加载Uri。**
+
+```
+BoxingMediaLoader.getInstance().init(GlideLoader())
+```
+
 
 #### 4.更多
 1. 基本使用方法与[boxing](https://github.com/bilibili/boxing)完全一致，可参见其文档
