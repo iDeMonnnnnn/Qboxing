@@ -18,9 +18,6 @@ import com.bilibili.boxing.model.entity.BaseMedia
  * E-mail 757454343@qq.com
  * Desc: 使用系统原生裁剪
  * 系统裁剪在不同手机的表现都有差异，建议使用UCrop
- * 亲测：
- * 华为手机必须设置outputX&outputY，否则无法裁剪；小米手机则可以不设置，按照实例裁剪大小输出；
- * 比例裁剪时必须满足outputX=aspectX，aspectY=outputY，否则无法比例裁剪，会默认使用自由裁剪
  */
 class BoxingSystemCrop : IBoxingCrop {
     var cropUri: Uri? = null
@@ -34,6 +31,7 @@ class BoxingSystemCrop : IBoxingCrop {
         cropUri = cropConfig.destination
         media.uri?.run {
             val intentCrop = Intent("com.android.camera.action.CROP")
+            intentCrop.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             intentCrop.setDataAndType(this, "image/*")
             //下面这个crop=true是设置在开启的Intent中设置显示的VIEW可裁剪
             intentCrop.putExtra("crop", "true")
@@ -48,7 +46,8 @@ class BoxingSystemCrop : IBoxingCrop {
                 intentCrop.putExtra("outputY", cropConfig.maxHeight)
             }
             //是否将数据保留在Bitmap中返回
-            intentCrop.putExtra("return-data", true)
+            //注意：这里设置为true的话，而不设置outputX&outputY，华为手机无法正常自由裁剪
+            intentCrop.putExtra("return-data", false)
             //关闭人脸识别
             intentCrop.putExtra("noFaceDetection", true)
             //设置输出的格式

@@ -72,7 +72,6 @@
         app:layout_constraintStart_toEndOf="@id/btn6"
         app:layout_constraintTop_toBottomOf="@id/btn4" />
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"
         android:layout_width="match_parent"

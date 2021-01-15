@@ -96,9 +96,16 @@ BoxingMediaLoader.getInstance().init(GlideLoader())
 ```
 
 
-#### 4.更多
+##### 5.更多使用
+
 1. 基本使用方法与[boxing](https://github.com/bilibili/boxing)完全一致，可参见其文档
 2. 参考[app](https://github.com/iDeMonnnnnn/Qboxing/tree/master/app)使用示例
+
+##### 6.注意事项
+使用本库不建议在AndroidQ及以上使用boxing选择视频(Mode.VIDEO)。
+因为本库的本质是在AndroidQ上将选择的图片复制到作用域中，以便你可以直接使用文件路径访问，进行上传等操作。
+而视频文件通常比较大，这么做如果管理不当，会非常占用存储空间。
+建议使用Intent.ACTION_OPEN_DOCUMENT选择文件后，读取uri的流进行上传等操作。
 
 #### 使用效果
 
