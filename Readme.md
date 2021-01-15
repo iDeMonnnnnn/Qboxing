@@ -103,11 +103,8 @@ BoxingMediaLoader.getInstance().init(GlideLoader())
 
 ##### 6.注意事项
 使用本库不建议在AndroidQ及以上使用boxing选择视频(Mode.VIDEO)。
-
 因为本库的本质是在AndroidQ上将选择的图片复制到作用域中，以便你可以直接使用文件路径访问，进行上传等操作。
-
 而视频文件通常比较大，这么做如果管理不当，会非常占用存储空间。
-
 建议使用```Intent.ACTION_OPEN_DOCUMENT```选择文件后，读取uri的流进行上传等操作。
 
 #### 使用效果
