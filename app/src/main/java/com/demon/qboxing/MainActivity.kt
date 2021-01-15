@@ -30,9 +30,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         //初始化，提供一个全局的Context
         Boxing.init(this)
-        //考虑到不同项目中FileProvider的authorities可能不一样
-        //因此这里改成可以根据自己项目FileProvider的authorities自由设置
-        //如:android:authorities="${applicationId}.fileProvider",你只需要传入“fileProvider”即可
+        /**
+         * 考虑到不同项目中FileProvider的authorities可能不一样
+         *因此这里改成可以根据自己项目FileProvider的authorities自由设置
+         *如:android:authorities="${applicationId}.fileProvider",你只需要传入“fileProvider”即可
+         */
         Boxing.setFileProvider("fileProvider")
         /**
          * 初始化图片加载器
