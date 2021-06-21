@@ -140,7 +140,7 @@ class BoxingConfig : Parcelable {
      */
     fun needCamera(@DrawableRes _cameraRes: Int)= apply {
         cameraRes = _cameraRes
-        isNeedGif = true
+        isNeedCamera = true
     }
 
     /**

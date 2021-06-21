@@ -44,8 +44,8 @@ dependencies {
         exclude group: 'com.squareup.okhttp3'
         exclude group: 'androidx.appcompat'
     }
-    //implementation project(path: ':boxing-impl')
-    implementation 'com.github.iDeMonnnnnn:Qboxing:1.0.1'
+    implementation project(path: ':boxing-impl')
+    //implementation 'com.github.iDeMonnnnnn:Qboxing:1.0.1'
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 }

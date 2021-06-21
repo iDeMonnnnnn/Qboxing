@@ -29,6 +29,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.webkit.MimeTypeMap
 import androidx.core.content.FileProvider
+import androidx.documentfile.provider.DocumentFile
 import com.bilibili.boxing.Boxing
 import com.bilibili.boxing.model.entity.BaseMedia
 import java.io.BufferedInputStream
@@ -237,8 +238,13 @@ fun Uri.getFileFromUriN(context: Context): File? {
             "com.android.providers.downloads.documents" -> { //下载内容中选择
                 if (uriId.startsWith("raw:")) {
                     file = File(split[1])
+                } else {
+                    //content://com.android.providers.downloads.documents/document/582
+                    val contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), uriId.toLong())
+                    contentUri.getDataColumn(context)?.run {
+                        file = File(this)
+                    }
                 }
-                //content://com.android.providers.downloads.documents/document/582
             }
             "com.android.providers.media.documents" -> { //多媒体中选择
                 var contentUri: Uri? = null
@@ -308,9 +314,10 @@ fun Uri?.getDataColumn(context: Context): String? {
 fun Uri.saveFileByUri(context: Context): File? {
     try {
         val inputStream = context.contentResolver.openInputStream(this)
-        val file = File(context.getExternalFilesDir("Temp"), "${this.authority}_${this.lastPathSegment}.${this.getExtensionByUri(context)}")
-        if (file.exists()) {
-            return file
+        val fileName = this.getFileName(context) ?: "${System.currentTimeMillis()}.${getExtensionByUri(context)}"
+        val file = File(context.getBoxingDefaultCache(), fileName)
+        if (!file.exists()) {
+            file.createNewFile()
         }
         val fos = FileOutputStream(file)
         val bis = BufferedInputStream(inputStream)
@@ -337,6 +344,10 @@ fun Uri.saveFileByUri(context: Context): File? {
 fun String.isExistScope(): Boolean =
     this.contains("/Android/data/${Boxing.mContext.packageName}") && File(this).exists()
 
+fun Uri.getFileName(context: Context): String? {
+    val documentFile = DocumentFile.fromSingleUri(context, this)
+    return documentFile?.name
+}
 
 /**
  * 根据Uri获取扩展名
@@ -365,3 +376,19 @@ fun String.getExtensionByFileName() =
  */
 fun String.getMimeTypeByFileName(): String =
     URLConnection.getFileNameMap().getContentTypeFor(this)
+
+
+fun Context.getExternalOrCacheDir(): File {
+    // 如果获取为空则改为getCacheDir
+    val dir = externalCacheDir ?: cacheDir
+    if (!dir.exists()) {
+        dir.mkdirs()
+    }
+    return dir
+}
+
+fun Context.getBoxingDefaultCache(): File {
+    val file = File(getExternalOrCacheDir(), "boxing")
+    file.mkdirs()
+    return file
+}
